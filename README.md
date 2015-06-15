@@ -14,7 +14,11 @@ Aplicación móvil para tomar y editar fotos usando una gran variedad filtros "h
 
 ## Capturas de pantalla
 
-![captura1](http://i.imgur.com/bR3iLbZ.jpg)
+<img src="http://i.imgur.com/bR3iLbZ.jpg" width="300px"/>
+<img src="http://i.imgur.com/bR3iLbZ.jpg" width="300px"/>
+<img src="http://i.imgur.com/bR3iLbZ.jpg" width="300px"/>
+<img src="http://i.imgur.com/bR3iLbZ.jpg" width="300px"/>
+<img src="http://i.imgur.com/bR3iLbZ.jpg" width="300px"/>
 ![captura2](http://i.imgur.com/2x5SBVW.jpg)
 ![captura3](http://i.imgur.com/WVQ3LA5.jpg)
 ![captura4](http://i.imgur.com/J58dKvg.jpg)
