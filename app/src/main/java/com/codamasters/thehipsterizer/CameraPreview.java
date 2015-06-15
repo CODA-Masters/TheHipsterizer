@@ -25,7 +25,6 @@ import jp.co.cyberagent.android.gpuimage.GPUImageView;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
 	private SurfaceHolder mHolder;
 	private Camera mCamera;
-    private String currentFilter = Parameters.EFFECT_NONE;
     private String currentFlash = Parameters.FLASH_MODE_OFF;
     private Context context;
     boolean isPreviewRunning;
@@ -112,7 +111,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
             mCamera.setPreviewDisplay(mHolder);
 			Camera.Parameters params = mCamera.getParameters();
-			params.setColorEffect(currentFilter);
             params.setPreviewSize(640,480);
             params.setFlashMode(currentFlash);
             mCamera.setParameters(params);
@@ -190,17 +188,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 bitmap = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
 
                 matrix = new Matrix();
-                if(cameraId==0) {
-                    matrix.postRotate(90);
-                }
-                 else{
+
+                if(cameraId==1) {
                     float[] mirrorY = { -1, 0, 0, 0, 1, 0, 0, 0, 1};
                     Matrix matrixMirrorY = new Matrix();
                     matrixMirrorY.setValues(mirrorY);
 
                     matrix.postConcat(matrixMirrorY);
-                    matrix.postRotate(90);
                 }
+                matrix.postRotate(90);
 
 
                 rotatedBitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap .getWidth(), bitmap .getHeight(), matrix, true);

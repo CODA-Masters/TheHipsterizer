@@ -310,14 +310,13 @@ public class CameraActivity extends ActionBarActivity {
     }
 
 
-    public void filterNone(View v){
-        currentFilter = "none";
-        mPreview.setActualFilter( new NoneFilter(this) );
+    public void filterNormal(View v) {
+        currentFilter = "normal";
+        mPreview.setActualFilter(new IFNormalFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
     }
-
     public void filterNashville(View v) {
         currentFilter = "nashville";
         mPreview.setActualFilter( new IFNashvilleFilter(this) );
@@ -395,13 +394,6 @@ public class CameraActivity extends ActionBarActivity {
         buttonsLayout.setVisibility(View.VISIBLE);
     }
 
-    public void filterNormal(View v) {
-        currentFilter = "normal";
-        mPreview.setActualFilter(new IFNormalFilter(this));
-        menuFiltersLayout.setVisibility(View.GONE);
-        buttonsLayout.setVisibility(View.VISIBLE);
-
-    }
 
     public void filterRise(View v) {
         currentFilter = "rise";
@@ -729,6 +721,8 @@ public class CameraActivity extends ActionBarActivity {
                 case "xproll"   :   mPreview.setActualFilter(new IFXproIIFilter(this));
                     break;
                 case "haze"     :   mPreview.setActualFilter(new GPUImageHazeFilter());
+                    break;
+                case "none"     :   mPreview.setActualFilter(new NoneFilter(this));
                     break;
                 default: mPreview.setActualFilter(null);
                     break;
