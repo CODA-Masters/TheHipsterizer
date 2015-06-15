@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_normal" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_1977" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_nashville" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_valencia" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_amaro" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_brannan" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -257,7 +257,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_earlybird" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -290,7 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_hefe" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -323,7 +323,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_hudson" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -356,7 +356,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_inkwell" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -389,7 +389,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_lomofi" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -422,7 +422,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_lordkelvin" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -455,7 +455,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_rise" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -488,7 +488,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_sierra" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -521,7 +521,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_sutro" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -554,7 +554,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_toaster" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -587,7 +587,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_walden" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -620,7 +620,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_xproll" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -653,7 +653,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_haze" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -686,7 +686,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_sketch" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -720,7 +720,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/coffee" />
+                    android:src="@drawable/filt_toon" />
 
                 <TextView
                     android:layout_width="match_parent"

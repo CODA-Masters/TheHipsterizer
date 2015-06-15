@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/coffee" />
+                android:src="@drawable/filt_normal" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -131,13 +131,14 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/filtersLayout"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:transitionGroup="false"
                 android:touchscreenBlocksFocus="true"
-                android:nestedScrollingEnabled="false">
+                android:nestedScrollingEnabled="false"
+                android:background ="#00676767">
 
                 <LinearLayout
                     android:layout_width="60dp"
@@ -156,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_normal" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -189,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_1977" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -222,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_nashville" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -255,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_valencia" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -288,7 +289,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_amaro" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -321,7 +322,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_brannan" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -354,7 +355,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_earlybird" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -387,7 +388,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_hefe" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -420,7 +421,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_hudson" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -453,7 +454,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_inkwell" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -486,7 +487,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_lomofi" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -519,7 +520,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_lordkelvin" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -533,7 +534,6 @@
                         android:textSize="10dp" />
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="60dp"
@@ -553,7 +553,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_rise" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -586,7 +586,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_sierra" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -619,7 +619,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_sutro" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -652,7 +652,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_toaster" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -685,7 +685,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_walden" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -718,7 +718,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_xproll" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -743,6 +743,39 @@
                     android:orientation="vertical"
                     android:background="@drawable/border_button"
                     android:padding="1dp"
+                    android:onClick="filterHaze"
+                    android:id="@+id/haze" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/filt_haze" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#1D63A1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="Haze"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/border_button"
+                    android:padding="1dp"
                     android:onClick="filterSketch"
                     android:id="@+id/sktech" >
 
@@ -751,7 +784,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_sketch" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -785,7 +818,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@drawable/coffee" />
+                        android:src="@drawable/filt_toon" />
 
                     <TextView
                         android:layout_width="match_parent"
