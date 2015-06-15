@@ -15,8 +15,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -41,11 +42,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
-import jp.co.cyberagent.android.gpuimage.GPUImageKuwaharaFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageSketchFilter;
-import jp.co.cyberagent.android.gpuimage.GPUImageSwirlFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageToonFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
@@ -86,6 +86,7 @@ public class CameraActivity extends ActionBarActivity {
     private ProgressBar progBar;
     private Handler mHandler;
     private int _cameraId;
+    private Toolbar toolbar;
 
 
     @Override
@@ -96,16 +97,15 @@ public class CameraActivity extends ActionBarActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         myContext = this;
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        //actionBar.hide();
-        //RelativeLayout buttonsLayout = (RelativeLayout)findViewById(R.id.buttonsLayout);
-        //buttonsLayout.bringToFront();
+
+
         initialize();
         mPreview.setWillNotDraw(false);
         mHandler = new Handler(Looper.getMainLooper());
 
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+
+        setSupportActionBar(toolbar);
 
     }
 
@@ -223,8 +223,6 @@ public class CameraActivity extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 
-        Log.d("OnResume", "LLAMANDO BROZORZIOOOOOOOOOOOO");
-
         if (!hasCamera(myContext)) {
             Toast toast = Toast.makeText(myContext, "Sorry, your phone does not have a camera!", Toast.LENGTH_LONG);
             toast.show();
@@ -239,9 +237,7 @@ public class CameraActivity extends ActionBarActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             myContext = this;
-            ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(false);
+
             //actionBar.hide();
             //RelativeLayout buttonsLayout = (RelativeLayout)findViewById(R.id.buttonsLayout);
             //buttonsLayout.bringToFront();
@@ -252,6 +248,9 @@ public class CameraActivity extends ActionBarActivity {
             mCamera = Camera.open(findBackFacingCamera());
             mPicture = getPictureCallback();
             mPreview.refreshCamera(mCamera);
+
+            toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+            setSupportActionBar(toolbar);
 
         }
     }
@@ -292,7 +291,7 @@ public class CameraActivity extends ActionBarActivity {
         capturedImage = (ImageView) findViewById(R.id.capturedImageView);
         capturedImage.setOnClickListener(capturedImageListener);
 
-        filtersScroll = (ScrollView) findViewById(R.id.filtersScrollView);
+        //filtersScroll = (ScrollView) findViewById(R.id.filtersScrollView);
         horizontalFiltersScroll = (HorizontalScrollView) findViewById(R.id.horizontalFiltersScrollView);
         menuFiltersLayout = (LinearLayout) findViewById(R.id.menuFiltersLayout);
         buttonsLayout = (RelativeLayout) findViewById(R.id.buttonsLayout);
@@ -501,8 +500,9 @@ public class CameraActivity extends ActionBarActivity {
 
                 mCamera = Camera.open(cameraId);
                 _cameraId = 0;
-                mPreview.setMatrix(180, _cameraId);
                 mPicture = getPictureCallback();
+                mPreview.setCamera(_cameraId);
+
 
 
             }
@@ -512,13 +512,13 @@ public class CameraActivity extends ActionBarActivity {
 
                 mCamera = Camera.open(cameraId);
                 _cameraId = 1;
-                mPreview.setMatrix(180, _cameraId);
                 mPicture = getPictureCallback();
-
 
 
             }
         }
+
+        mPreview.setCamera(_cameraId);
 
     }
 
@@ -690,7 +690,6 @@ public class CameraActivity extends ActionBarActivity {
             mCamera = Camera.open(cameraId);
             mPicture = getPictureCallback();
             mPreview.refreshCamera(mCamera);
-            mPreview.setMatrix(0,cameraId);
 
             switch (currentFilter){
                 case "nashville":   mPreview.setActualFilter(new IFNashvilleFilter(this));

@@ -9,11 +9,9 @@ import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
-import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.Display;
-import android.view.OrientationEventListener;
-import android.view.Surface;
+
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -41,29 +39,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Bitmap rotatedBitmap;
     private GPUImageFilter actualFilter;
     private int cameraId;
-    private OrientationEventListener mOrientationEventListener;
-    private int mOrientation =  -1;
-    private int gira=0;
-
-    private static final int ORIENTATION_PORTRAIT_NORMAL =  1;
-    private static final int ORIENTATION_PORTRAIT_INVERTED =  2;
-    private static final int ORIENTATION_LANDSCAPE_NORMAL =  3;
-    private static final int ORIENTATION_LANDSCAPE_INVERTED =  4;
-
 
 
     public void setActualFilter(GPUImageFilter actualFilter) {
         this.actualFilter = actualFilter;
         if(actualFilter != null)
             view.setFilter(actualFilter);
-    }
-
-    public void setMatrix(int degree, int cameraId) {
-        matrix.postRotate(degree);
-        this.cameraId = cameraId;
-
-        Log.d("ID CAMERA REAL", this.cameraId+"");
-
     }
 
 
@@ -80,48 +61,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         setWillNotDraw(false);
 
-        mOrientationEventListener = new OrientationEventListener(context, SensorManager.SENSOR_DELAY_NORMAL) {
-
-            @Override
-            public void onOrientationChanged(int orientation) {
-
-                // determine our orientation based on sensor response
-                int lastOrientation = mOrientation;
-
-                if (orientation >= 315 || orientation < 45) {
-                    if (mOrientation != ORIENTATION_PORTRAIT_NORMAL) {
-                        mOrientation = ORIENTATION_PORTRAIT_NORMAL;
-                    }
-                } else if (orientation < 315 && orientation >= 225) {
-                    if (mOrientation != ORIENTATION_LANDSCAPE_NORMAL) {
-                        mOrientation = ORIENTATION_LANDSCAPE_NORMAL;
-                    }
-                } else if (orientation < 225 && orientation >= 135) {
-                    if (mOrientation != ORIENTATION_PORTRAIT_INVERTED) {
-                        mOrientation = ORIENTATION_PORTRAIT_INVERTED;
-                    }
-                } else { // orientation <135 && orientation > 45
-                    if (mOrientation != ORIENTATION_LANDSCAPE_INVERTED) {
-                        mOrientation = ORIENTATION_LANDSCAPE_INVERTED;
-                    }
-                }
-
-
-                if (lastOrientation != mOrientation) {
-
-                                if(mOrientation == ORIENTATION_LANDSCAPE_INVERTED || mOrientation == ORIENTATION_LANDSCAPE_NORMAL) {
-                                    if (gira%2==1) {
-                                        Log.d("Camara", "Invirtiendo camara");
-                                        setMatrix(180, cameraId);
-                                    }
-                                    gira++;
-                                }
-
-                }
-            }
-        };
-
-
     }
 
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -129,7 +68,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			// create the surface and start camera preview
 
             Log.d("Mensaje", "Superficie creada");
-            mOrientationEventListener.enable();
 
             WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();
@@ -139,15 +77,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 mCamera.setPreviewDisplay(holder);
                 mCamera.startPreview();
                 isPreviewRunning = true;
-			}
+
+            }
 		} catch (IOException e) {
 			Log.d(VIEW_LOG_TAG, "Error setting camera preview: " + e.getMessage());
 		}
 	}
 
 	public void refreshCamera(Camera camera) {
-
-        Log.d("Mensaje", "Camera actualizada");
 
 
         if (mHolder.getSurface() == null) {
@@ -202,8 +139,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         try{
 
-            configureCameraOrientation();
-
             refreshCamera(mCamera);
             mCamera.startPreview();
             isPreviewRunning = true;
@@ -211,50 +146,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } catch (Exception e){
             Log.d("Error", "Error starting camera preview: " + e.getMessage());
         }
-
-    }
-
-    public void configureCameraOrientation(){
-
-        Log.d("ID CAMERA", cameraId+"");
-
-
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-
-        Log.d("Orientacion", "CAMBIANDO CONFIGURACION DE LA ORIENTACION DE LA CAMARA");
-
-        int angle;
-        switch (display.getRotation()) {
-            case Surface.ROTATION_0: // This is display orientation
-                angle = 90; // This is camera orientation
-                matrix.postRotate(90);
-
-                if(cameraId==1){
-                    matrix.postRotate(180);
-                }
-
-                break;
-            case Surface.ROTATION_90:
-                angle = 0;
-                matrix.postRotate(0);
-                break;
-            case Surface.ROTATION_180:
-                angle = 270;
-                matrix.postRotate(270);
-                break;
-            case Surface.ROTATION_270:
-                angle = 180;
-                matrix.postRotate(180);
-                break;
-            default:
-                angle = 90;
-                matrix.postRotate(90);
-                break;
-        }
-        Log.v("Girando camera", "angle: " + angle);
-
-        mCamera.setDisplayOrientation(angle);
 
     }
 
@@ -274,7 +165,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		// TODO Auto-generated method stub
 		// mCamera.release();
         Log.d("Mensaje", "Superficie destruida");
-        mOrientationEventListener.disable();
 
     }
 
@@ -299,7 +189,22 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
                 bitmap = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
 
+                matrix = new Matrix();
+                if(cameraId==0) {
+                    matrix.postRotate(90);
+                }
+                 else{
+                    float[] mirrorY = { -1, 0, 0, 0, 1, 0, 0, 0, 1};
+                    Matrix matrixMirrorY = new Matrix();
+                    matrixMirrorY.setValues(mirrorY);
+
+                    matrix.postConcat(matrixMirrorY);
+                    matrix.postRotate(90);
+                }
+
+
                 rotatedBitmap = Bitmap.createBitmap(bitmap , 0, 0, bitmap .getWidth(), bitmap .getHeight(), matrix, true);
+                bitmap.recycle();
 
                 view.setImage(rotatedBitmap);
 
@@ -312,5 +217,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
 
+        public void setCamera(int cameraId) {
+            this.cameraId = cameraId;
+        }
 
 }

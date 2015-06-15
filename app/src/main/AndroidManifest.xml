@@ -32,6 +32,7 @@
         <activity
             android:name=".CameraActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:launchMode = "singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.CAMERA_ACTIVITY" />
@@ -43,6 +44,7 @@
         <activity
             android:name=".FilterActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:launchMode = "singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.FILTER_ACTIVITY" />

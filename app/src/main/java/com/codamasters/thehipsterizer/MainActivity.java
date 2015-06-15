@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 
@@ -27,10 +26,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.hide();
 
         TextView tv = (TextView) findViewById(R.id.titleIntro);
         Typeface face = Typeface.createFromAsset(getAssets(), "fonts/pacifico.ttf");

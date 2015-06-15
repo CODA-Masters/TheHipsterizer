@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cameraMode"
+        android:background="@drawable/camera_init"
+        android:onClick="openCamera"
+        android:clickable="false"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/galleryMode"
+        android:layout_marginTop="43dp"
+        android:background="@drawable/gallery"
+        android:onClick="openFilter"
+        android:layout_below="@+id/cameraMode"
+        android:layout_alignRight="@+id/cameraMode"
+        android:layout_alignEnd="@+id/cameraMode" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleIntro"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:autoText="false"
+        android:text="The Hipsterizer"
+        android:textSize="46dp"
+        android:textColor="@color/abc_search_url_text_normal" />
+</RelativeLayout>
