@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -639,7 +641,8 @@ public class CameraActivity extends ActionBarActivity {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                Bitmap aux2 = getResizedBitmap(auxImage, capturedImage.getWidth()-25, capturedImage.getHeight()-30);
+                                Bitmap aux2 = getResizedBitmap(auxImage, capturedImage.getWidth(), capturedImage.getHeight());
+                                aux2 = addBlackBorder(aux2, 2);
                                 capturedImage.setImageBitmap(aux2);
                                 progBar.setVisibility(View.GONE);
 
@@ -819,6 +822,7 @@ public class CameraActivity extends ActionBarActivity {
                     e1.printStackTrace();
                 }
                 Bitmap aux2 = getResizedBitmap(bitmap, capturedImage.getWidth(), capturedImage.getHeight());
+                aux2 = addBlackBorder(aux2, 2);
                 capturedImage.setImageBitmap(aux2);
             }
         }
@@ -838,6 +842,14 @@ public class CameraActivity extends ActionBarActivity {
         Bitmap resizedBitmap = Bitmap.createBitmap(
                 bm, 0, 0, width, height, matrix, false);
         return resizedBitmap;
+    }
+
+    private Bitmap addBlackBorder(Bitmap bmp, int borderSize) {
+        Bitmap bmpWithBorder = Bitmap.createBitmap(bmp.getWidth() + borderSize * 2, bmp.getHeight() + borderSize * 2, bmp.getConfig());
+        Canvas canvas = new Canvas(bmpWithBorder);
+        canvas.drawColor(Color.BLACK);
+        canvas.drawBitmap(bmp, borderSize, borderSize, null);
+        return bmpWithBorder;
     }
 
 }
