@@ -97,28 +97,11 @@ public class CameraActivity extends ActionBarActivity {
         getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         myContext = this;
 
-
+        // Inicializamos todos los objetos que vayamos a usar.
         initialize();
-        mPreview.setWillNotDraw(false);
-        mHandler = new Handler(Looper.getMainLooper());
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CameraActivity.this, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.animator.animation3, R.animator.animation4);
-            }
-        });
-
-
     }
 
-    // Create menu
+    // Generamos el menú y realizamos los cambios de ícono del flash cuando cambiamos el modo
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -139,7 +122,7 @@ public class CameraActivity extends ActionBarActivity {
         return true;
     }
 
-    // Action Bar listener
+    // Realizamos las acciones pertenecientes a las opciones del menú
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
@@ -195,6 +178,7 @@ public class CameraActivity extends ActionBarActivity {
         }
     }
 
+    // Buscamos la cámara delantera
     private int findFrontFacingCamera() {
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
@@ -209,6 +193,7 @@ public class CameraActivity extends ActionBarActivity {
         return cameraId;
     }
 
+    // Buscamos la cámara trasera
     private int findBackFacingCamera() {
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
@@ -223,6 +208,7 @@ public class CameraActivity extends ActionBarActivity {
         return cameraId;
     }
 
+    // Si dejamos la app en modo pause y volvimos a abrila se llama la función onResume, realizará las  mismas tareas que onCreate
     public void onResume() {
         super.onResume();
 
@@ -245,28 +231,11 @@ public class CameraActivity extends ActionBarActivity {
             //RelativeLayout buttonsLayout = (RelativeLayout)findViewById(R.id.buttonsLayout);
             //buttonsLayout.bringToFront();
             initialize();
-            mPreview.setWillNotDraw(false);
-            mHandler = new Handler(Looper.getMainLooper());
 
-            mCamera = Camera.open(findBackFacingCamera());
-            mPicture = getPictureCallback();
-            mPreview.refreshCamera(mCamera);
-
-            toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-            setSupportActionBar(toolbar);
-
-            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CameraActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.animator.animation3, R.animator.animation4);
-                }
-            });
         }
     }
 
+    // Inicializamos los objetos usados en la aplicación
     public void initialize() {
         cameraPreview = (LinearLayout) findViewById(R.id.camera_preview);
         view = (GPUImageView) findViewById(R.id.live_filter_view);
@@ -320,9 +289,26 @@ public class CameraActivity extends ActionBarActivity {
         button_filters_image = (ImageView) findViewById(R.id.button_filters_image);
         button_filters_text = (TextView) findViewById(R.id.button_filters_text);
 
+        mPreview.setWillNotDraw(false);
+        mHandler = new Handler(Looper.getMainLooper());
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.animator.animation3, R.animator.animation4);
+            }
+        });
+
 
     }
 
+    // MÉTODOS ONCLICK DE TODOS LOS FILTROS
 
     public void filterNormal(View v) {
         currentFilter = "normal";
@@ -536,6 +522,8 @@ public class CameraActivity extends ActionBarActivity {
     }
 
 
+    // Listeners para los botones para abrir la lista de filtros y para abrir la imagen capturada en miniatura
+
     OnClickListener filtersListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -560,6 +548,7 @@ public class CameraActivity extends ActionBarActivity {
     };
 
 
+    // Función de elegir la cámara que vayamos a usar
 
     public void chooseCamera() {
 
@@ -597,6 +586,8 @@ public class CameraActivity extends ActionBarActivity {
         releaseCamera();
     }
 
+    // Comprueba si tiene o no cámara el dispostivo que estmos usando
+
     private boolean hasCamera(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             return true;
@@ -604,6 +595,9 @@ public class CameraActivity extends ActionBarActivity {
             return false;
         }
     }
+
+    // Función que captura los datos que se devuelven al tomar una imagen
+    // en ella realizamos su guardado y creamos la miniatura que se va a mostrar
 
     private PictureCallback getPictureCallback() {
         PictureCallback picture = new PictureCallback() {
@@ -680,8 +674,6 @@ public class CameraActivity extends ActionBarActivity {
 
             public boolean onTouch(View v, MotionEvent event) {
 
-                Log.d("Buton", "Presionando botonaco");
-
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
@@ -699,6 +691,7 @@ public class CameraActivity extends ActionBarActivity {
         });
     }
 
+    // Función que obtiene el fichero con el formato adecuado dentro del cual vamos a guardar la imagen tomada
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");
