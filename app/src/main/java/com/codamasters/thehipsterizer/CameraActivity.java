@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -58,10 +59,6 @@ public class CameraActivity extends ActionBarActivity {
     private PictureCallback mPicture;
     private ImageButton capture;
     private LinearLayout filters;
-    private ScrollView filtersScroll;
-    private HorizontalScrollView horizontalFiltersScroll;
-    private LinearLayout noneFilter,monoFilter,  sepiaFilter, aquaFilter, blackboardFilter, whiteboardFilter,
-            posterizeFilter, negativeFilter, solarizeFilter;
     private ImageView capturedImage;
     private Uri fileUri;
     private String filePath;
@@ -70,10 +67,7 @@ public class CameraActivity extends ActionBarActivity {
     private RelativeLayout buttonsLayout;
     private boolean cameraFront;
     private File pictureFile;
-    private int sViewX, sViewY;
-    private boolean screenState;
     private int cameraId = -1;
-    private MenuItem flash;
     private Drawable autoflashicon, flashicon, noflashicon;
     private final int FLASH_AUTO = 0;
     private final int FLASH_ON = 1;
@@ -88,6 +82,8 @@ public class CameraActivity extends ActionBarActivity {
     private Handler mHandler;
     private int _cameraId;
     private Toolbar toolbar;
+    private ImageView button_filters_image;
+    private TextView button_filters_text;
 
 
     @Override
@@ -306,7 +302,6 @@ public class CameraActivity extends ActionBarActivity {
         capturedImage.setOnClickListener(capturedImageListener);
 
         //filtersScroll = (ScrollView) findViewById(R.id.filtersScrollView);
-        horizontalFiltersScroll = (HorizontalScrollView) findViewById(R.id.horizontalFiltersScrollView);
         menuFiltersLayout = (LinearLayout) findViewById(R.id.menuFiltersLayout);
         buttonsLayout = (RelativeLayout) findViewById(R.id.buttonsLayout);
 
@@ -320,6 +315,9 @@ public class CameraActivity extends ActionBarActivity {
         matrix = new Matrix();
         progBar = (ProgressBar) findViewById(R.id.loadingPanel);
 
+        button_filters_image = (ImageView) findViewById(R.id.button_filters_image);
+        button_filters_text = (TextView) findViewById(R.id.button_filters_text);
+
 
     }
 
@@ -330,12 +328,18 @@ public class CameraActivity extends ActionBarActivity {
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_normal));
+        button_filters_text.setText("None");
+
     }
     public void filterNashville(View v) {
         currentFilter = "nashville";
         mPreview.setActualFilter( new IFNashvilleFilter(this) );
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_nashville));
+        button_filters_text.setText("Nashville");
     }
 
     public void filter1977(View v) {
@@ -343,6 +347,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter( new IF1977Filter(this) );
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_1977));
+        button_filters_text.setText("1977");
     }
 
     public void filterValencia(View v) {
@@ -350,6 +357,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFValenciaFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_valencia));
+        button_filters_text.setText("Valencia");
     }
 
     public void filterAmaro(View v) {
@@ -357,6 +367,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter (new IFAmaroFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_amaro));
+        button_filters_text.setText("Amaro");
     }
 
     public void filterBrannan(View v) {
@@ -364,6 +377,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter (new IFBrannanFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_brannan));
+        button_filters_text.setText("Brannan");
     }
 
     public void filterEarlyBird(View v) {
@@ -371,6 +387,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter (new IFEarlybirdFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_earlybird));
+        button_filters_text.setText("EarlyBird");
     }
 
     public void filterHefe(View v) {
@@ -378,6 +397,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter (new IFHefeFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_hefe));
+        button_filters_text.setText("Hefe");
     }
 
     public void filterHudson(View v) {
@@ -385,6 +407,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter (new IFHudsonFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_hudson));
+        button_filters_text.setText("Hudson");
     }
 
     public void filterInkwell(View v) {
@@ -392,6 +417,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter (new IFInkwellFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_inkwell));
+        button_filters_text.setText("Inkwell");
     }
 
     public void filterLomofi(View v) {
@@ -399,6 +427,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter (new IFLomofiFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_lomofi));
+        button_filters_text.setText("Lomofi");
     }
 
     public void filterLordKelvin(View v) {
@@ -406,6 +437,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFLordKelvinFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_lordkelvin));
+        button_filters_text.setText("LordKelvin");
     }
 
 
@@ -414,6 +448,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFRiseFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_rise));
+        button_filters_text.setText("Rise");
     }
 
     public void filterSierra(View v) {
@@ -421,6 +458,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFSierraFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_sierra));
+        button_filters_text.setText("Sierra");
     }
 
     public void filterSutro(View v) {
@@ -428,6 +468,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFSutroFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_sutro));
+        button_filters_text.setText("Sutro");
     }
 
     public void filterToaster(View v) {
@@ -435,6 +478,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFToasterFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_toaster));
+        button_filters_text.setText("Toaster");
     }
 
     public void filterWalden(View v) {
@@ -442,6 +488,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFWaldenFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_walden));
+        button_filters_text.setText("Walden");
     }
 
     public void filterXproll(View v) {
@@ -449,6 +498,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new IFXproIIFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_xproll));
+        button_filters_text.setText("Xproll");
     }
 
     public void filterHaze(View v) {
@@ -456,6 +508,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new GPUImageHazeFilter());
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_haze));
+        button_filters_text.setText("Haze");
     }
 
     public void filterSketch(View v) {
@@ -463,6 +518,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new GPUImageSketchFilter());
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_sketch));
+        button_filters_text.setText("Sketch");
     }
 
     public void filterToon(View v) {
@@ -470,6 +528,9 @@ public class CameraActivity extends ActionBarActivity {
         mPreview.setActualFilter(new GPUImageToonFilter());
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
+
+        button_filters_image.setImageDrawable(getResources().getDrawable(R.drawable.filt_toon));
+        button_filters_text.setText("Toon");
     }
 
 

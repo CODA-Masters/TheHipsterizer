@@ -93,6 +93,7 @@
             android:id="@+id/button_filters">
 
             <ImageView
+                android:id="@+id/button_filters_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -100,13 +101,14 @@
                 android:src="@drawable/filt_normal" />
 
             <TextView
+                android:id="@+id/button_filters_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="#1D63A1"
                 android:gravity="center"
                 android:padding="2dp"
-                android:text="Filter"
+                android:text="No filter"
                 android:textColor="#FFFFFF"
                 android:textSize="10dp" />
 
