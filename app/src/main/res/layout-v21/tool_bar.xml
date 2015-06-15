@@ -6,4 +6,10 @@
     android:elevation="4dp"
     >
 
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""/>
+
 </android.support.v7.widget.Toolbar>

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -106,6 +107,16 @@ public class CameraActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
 
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.animator.animation3, R.animator.animation4);
+            }
+        });
+
 
     }
 
@@ -181,12 +192,6 @@ public class CameraActivity extends ActionBarActivity {
                 }
                 invalidateOptionsMenu();
                 return true;
-            case R.id.action_home:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.animator.animation3, R.animator.animation4);
-
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -252,6 +257,15 @@ public class CameraActivity extends ActionBarActivity {
             toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
             setSupportActionBar(toolbar);
 
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.animator.animation3, R.animator.animation4);
+                }
+            });
         }
     }
 

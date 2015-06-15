@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/capturedImageView"
+            android:elevation="5dp"
             android:background="@drawable/bg_captured" />
 
         <ProgressBar

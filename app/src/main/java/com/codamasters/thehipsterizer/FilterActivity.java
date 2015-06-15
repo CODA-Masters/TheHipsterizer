@@ -60,10 +60,16 @@ public class FilterActivity extends ActionBarActivity {
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
-        /**
-         * Initialise the renderer and tell it to only render when
-         * Explicit requested with the RENDERMODE_WHEN_DIRTY option
-         */
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FilterActivity.this, MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.animator.animation3, R.animator.animation4);
+            }
+        });
+
         mEffectView = (GPUImageView) findViewById(R.id.image_preview);
 
 
@@ -262,13 +268,6 @@ public class FilterActivity extends ActionBarActivity {
                 } finally {
                     Toast.makeText(getApplicationContext(), "Imagen guardada",Toast.LENGTH_LONG).show();
                 }
-
-                return true;
-
-            case R.id.action_home:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.animator.animation3, R.animator.animation4);
 
                 return true;
             default:
