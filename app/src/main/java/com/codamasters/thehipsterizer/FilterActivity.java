@@ -64,6 +64,7 @@ public class FilterActivity extends ActionBarActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(FilterActivity.this, MainActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.animator.animation3, R.animator.animation4);
