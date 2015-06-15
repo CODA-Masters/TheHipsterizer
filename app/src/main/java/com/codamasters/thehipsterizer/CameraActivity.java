@@ -639,7 +639,8 @@ public class CameraActivity extends ActionBarActivity {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                capturedImage.setImageBitmap(auxImage);
+                                Bitmap aux2 = getResizedBitmap(auxImage, capturedImage.getWidth()-25, capturedImage.getHeight()-30);
+                                capturedImage.setImageBitmap(aux2);
                                 progBar.setVisibility(View.GONE);
 
                             } catch (Exception e) {
@@ -739,8 +740,6 @@ public class CameraActivity extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
 
-        Log.d("broza", "CAMBIANDO ACTIVIDAD");
-
         if (savedInstanceState != null) {
 
             //sViewX = savedInstanceState.getInt("sViewX");
@@ -819,10 +818,26 @@ public class CameraActivity extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-
-                capturedImage.setImageBitmap(bitmap);
+                Bitmap aux2 = getResizedBitmap(bitmap, capturedImage.getWidth(), capturedImage.getHeight());
+                capturedImage.setImageBitmap(aux2);
             }
         }
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        return resizedBitmap;
     }
 
 }
