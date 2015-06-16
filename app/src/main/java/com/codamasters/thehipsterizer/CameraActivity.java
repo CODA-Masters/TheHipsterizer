@@ -589,10 +589,6 @@ public class CameraActivity extends ActionBarActivity {
                 mCamera = Camera.open(cameraId);
                 _cameraId = 0;
                 mPicture = getPictureCallback();
-                mPreview.setCamera(_cameraId);
-
-
-
             }
         } else {
             int cameraId = findFrontFacingCamera();
@@ -601,12 +597,10 @@ public class CameraActivity extends ActionBarActivity {
                 mCamera = Camera.open(cameraId);
                 _cameraId = 1;
                 mPicture = getPictureCallback();
-
-
             }
         }
 
-        mPreview.setCamera(_cameraId);
+        mPreview.setCameraCode(_cameraId);
 
     }
 

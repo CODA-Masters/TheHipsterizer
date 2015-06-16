@@ -35,6 +35,9 @@ import jp.co.cyberagent.android.gpuimage.GPUImageView;
 /**
  * Created by julio on 26/02/15.
  */
+
+// Clase para la actividad de poder aplicar filtros a una imagen cargada de galeria
+
 public class FilterActivity extends ActionBarActivity {
 
     static final int REQ_CODE_PICK_IMAGE = 1;
@@ -49,6 +52,8 @@ public class FilterActivity extends ActionBarActivity {
     private Toolbar toolbar;
 
 
+    // Realizamos la configuración de la actividad correspondientes
+    // e iniciamos el intent para poder elegir una imagen de galeria
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,11 +78,12 @@ public class FilterActivity extends ActionBarActivity {
 
         mEffectView = (GPUImageView) findViewById(R.id.image_preview);
 
-
         pickImage();
 
-
     }
+
+
+    // Función para lanzar el intent de la galeria
 
     public void pickImage() {
         /*
@@ -92,6 +98,9 @@ public class FilterActivity extends ActionBarActivity {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent , REQ_CODE_PICK_IMAGE );
     }
+
+    // Una vez seleccionada la imagen la cargamos en la vista y guardamos una imagen auxiliar
+    // para sobre ella aplicar los filtros
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
@@ -124,9 +133,8 @@ public class FilterActivity extends ActionBarActivity {
         }
     }
 
-    public void filterNone(View v){
-        mEffectView.setFilter(new GPUImageBrightnessFilter(0.0f));
-    }
+    // Lista de los onClickListeners correspondientes a cada filtro que se encarga de actualizar
+    // el filtro activo en la GPUImageView
 
     public void filterNashville(View v) {
         mEffectView.setFilter(new IFNashvilleFilter(context));
@@ -212,7 +220,7 @@ public class FilterActivity extends ActionBarActivity {
         mEffectView.setFilter(new GPUImageToonFilter());
     }
 
-    // Create menu
+    // Creamos el menú
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -220,6 +228,9 @@ public class FilterActivity extends ActionBarActivity {
 
         return true;
     }
+
+    // manejamos las acciones de los botones del menú
+    // En concreto la función de guardar la imagen filtrada
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -275,6 +286,8 @@ public class FilterActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    // Función para obtener el fichero en el cual se guardará la imagen
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");

@@ -22,6 +22,11 @@ import java.io.IOException;
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
+// Esta clase es la encargada de manejar los frames que la cámara va percibiendo
+// para mostrarlos en pantalla
+
+// Para poder usar filtros de openGl es necesario usar una view especial, la GPUImageView
+
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback, Camera.PreviewCallback {
 	private SurfaceHolder mHolder;
 	private Camera mCamera;
@@ -39,6 +44,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private GPUImageFilter actualFilter;
     private int cameraId;
 
+    // Obtenemos la información de la clase CameraActivity que es donde se inicaliza un objeto
+    // de CameraPreview
 
     public CameraPreview(Context context, Camera camera, GPUImageView view) {
 		super(context);
@@ -55,29 +62,24 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
+    // Hasta que no se haya creado la superficie para mostrar los frame no podemos iniciar
+    // la preview
+
 	public void surfaceCreated(SurfaceHolder holder) {
 		try {
-			// create the surface and start camera preview
-
-            Log.d("Mensaje", "Superficie creada");
-
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-
-
-            if (mCamera == null) {
+            if (mCamera != null) {
                 mCamera.setPreviewDisplay(holder);
                 mCamera.startPreview();
                 isPreviewRunning = true;
-
             }
 		} catch (IOException e) {
 			Log.d(VIEW_LOG_TAG, "Error setting camera preview: " + e.getMessage());
 		}
 	}
 
-	public void refreshCamera(Camera camera) {
+    // Función que se encarga de actualizar la cámara
 
+	public void refreshCamera(Camera camera) {
 
         if (mHolder.getSurface() == null) {
 			// preview surface does not exist
@@ -117,6 +119,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
+    // Si la superficie cambia, primero tenemos que detener la preview, realizar los cambios pertenecientes
+    // y nuevamente lanzar la preview
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
@@ -140,15 +144,20 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
+    // Función que cambia la instancia de la cámara usada
+
 	public void setCamera(Camera camera) {
-		//method to set a camera instance
 		mCamera = camera;
 
 	}
 
+    // Función que modifica el flash activado
+
     public void setCurrentFlash(String currentFlash) {
         this.currentFlash = currentFlash;
     }
+
+    // Función que modifica el filtro activo y actualiza con ello la GPUImageView
 
     public void setCurrentFilter(GPUImageFilter actualFilter) {
         this.actualFilter = actualFilter;
@@ -157,16 +166,18 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
 
-
     @Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
-		// mCamera.release();
         Log.d("Mensaje", "Superficie destruida");
-
     }
 
 
+    // Con cada frame capurado tendremos que realizar una serie de tratamientos para poder aplicarle
+    // el filro seleccionado y así mostrar el frame resultante
+
+    // Además tendremos que tener en cuenta una serie de transformaciones:
+    //      - Cuando la imagen proviene de la cámara trasera es necesario aplicar un giro de 90º
+    //      - Cuando la imagen de la cámara delantera tenemos que aplicarle un "espejo" y girarla 90º
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
@@ -212,8 +223,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             //camera.addCallbackBuffer(data);
         }
 
+        // Función que cambia el código de la cámara seleccionada
 
-        public void setCamera(int cameraId) {
+        public void setCameraCode(int cameraId) {
             this.cameraId = cameraId;
         }
 
