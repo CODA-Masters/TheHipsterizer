@@ -2,12 +2,14 @@ package com.codamasters.thehipsterizer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,7 +28,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import jp.co.cyberagent.android.gpuimage.GPUImageBrightnessFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageSketchFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageToonFilter;
@@ -86,18 +87,11 @@ public class FilterActivity extends ActionBarActivity {
     // Función para lanzar el intent de la galeria
 
     public void pickImage() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
-        }
-        else{
-            Intent galleryIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent , REQ_CODE_PICK_IMAGE );
-        }
-
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
     }
 
     // Una vez seleccionada la imagen la cargamos en la vista y guardamos una imagen auxiliar
@@ -110,17 +104,37 @@ public class FilterActivity extends ActionBarActivity {
 
         switch (requestCode) {
             case REQ_CODE_PICK_IMAGE:
+                Toast.makeText(this, "Fuera", Toast.LENGTH_SHORT);
                 if (resultCode == RESULT_OK && imageReturnedIntent !=  null ) {
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    InputStream imageStream = null;
-                    try {
-                        imageStream = context.getContentResolver().openInputStream(selectedImage);
-                        galleryImage = BitmapFactory.decodeStream(imageStream);
+                    Toast.makeText(this, "Dentro", Toast.LENGTH_SHORT);
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Uri selectedImage = imageReturnedIntent.getData();
+                        InputStream imageStream = null;
+                        try {
+                            imageStream = context.getContentResolver().openInputStream(selectedImage);
+                            galleryImage = BitmapFactory.decodeStream(imageStream);
+                            auxImage = galleryImage;
+                            mEffectView.setImage(galleryImage);
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else{
+                        Uri selectedImage = imageReturnedIntent.getData();
+                        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                        Cursor cursor = getContentResolver().query(selectedImage,
+                                filePathColumn, null, null, null);
+                        cursor.moveToFirst();
+
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String picturePath = cursor.getString(columnIndex);
+                        cursor.close();
+
+                        galleryImage = BitmapFactory.decodeFile(picturePath);
                         auxImage = galleryImage;
                         mEffectView.setImage(galleryImage);
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
                     }
                 }
                 else{
@@ -131,6 +145,7 @@ public class FilterActivity extends ActionBarActivity {
                     auxImage = null;
 
                 }
+            break;
         }
     }
 
