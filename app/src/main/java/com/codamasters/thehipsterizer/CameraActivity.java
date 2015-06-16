@@ -610,11 +610,15 @@ public class CameraActivity extends ActionBarActivity {
 
     }
 
+    // Al minimzar la aplicación se libera la cámara
+
     @Override
     protected void onPause() {
         super.onPause();
         releaseCamera();
     }
+
+    // Función que comprueba si tiene una cámara el dispositivo que estemos usando
 
     private boolean hasCamera(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
@@ -623,6 +627,12 @@ public class CameraActivity extends ActionBarActivity {
             return false;
         }
     }
+
+    // Una vez que se toma una foto es necesario capturar los datos que se han generado
+    // En esta función se realiza el tratamiento de dichos datos para guardarlos en memoria
+    // Además se generará una miniatura que se mostrará una vez almacenada la imagen
+    // con su correspondiente animacion de carga
+
 
     private PictureCallback getPictureCallback() {
         PictureCallback picture = new PictureCallback() {
@@ -682,24 +692,24 @@ public class CameraActivity extends ActionBarActivity {
         return picture;
     }
 
+    // Listener para el evento de hacer una imagen.
 
     OnClickListener captureListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
 
             progBar.setVisibility(View.VISIBLE);
-
             mCamera.takePicture(null, null, mPicture);
 
         }
     };
 
+    // Esta función maneja la animación de cambiarle el color al boton de tomar la imagen cuando se presiona
+
     public static void buttonEffect(View button){
         button.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View v, MotionEvent event) {
-
-                Log.d("Buton", "Presionando botonaco");
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
@@ -718,6 +728,7 @@ public class CameraActivity extends ActionBarActivity {
         });
     }
 
+    // Generamos el fichero, con la ruta adecuada, el cual va almacenar la imagen una vez tomada
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");
@@ -733,6 +744,8 @@ public class CameraActivity extends ActionBarActivity {
         return mediaFile;
     }
 
+    // Función que libera todos los recursos asociados a la cámara
+
     private void releaseCamera() {
         if (mCamera != null) {
             mCamera.setPreviewCallback(null);
@@ -742,110 +755,7 @@ public class CameraActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-
-        //---save whatever you need to persist—
-
-        outState.putInt("cameraId", cameraId);
-        outState.putBoolean("cameraFront", cameraFront);
-        outState.putString("filePath", filePath);
-        outState.putString("currentFilter", currentFilter);
-        outState.putInt("cameraIdOrient", _cameraId);
-
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-
-        if (savedInstanceState != null) {
-
-            //sViewX = savedInstanceState.getInt("sViewX");
-            //sViewY = savedInstanceState.getInt("sViewY");
-            cameraId = savedInstanceState.getInt("cameraId");
-            cameraFront = savedInstanceState.getBoolean("cameraFront");
-            filePath = savedInstanceState.getString("filePath");
-            currentFilter = savedInstanceState.getString("currentFilter");
-            _cameraId = savedInstanceState.getInt("cameraIdOrient");
-
-
-            //filtersScroll.scrollTo(sViewX, sViewY);
-            //releaseCamera();
-            mCamera = Camera.open(cameraId);
-            mPicture = getPictureCallback();
-            mPreview.refreshCamera(mCamera);
-
-            switch (currentFilter){
-                case "nashville":   mPreview.setActualFilter(new IFNashvilleFilter(this));
-                    break;
-                case "1977"     :   mPreview.setActualFilter(new IF1977Filter(this));
-                    break;
-                case "valencia" :   mPreview.setActualFilter(new IFValenciaFilter(this));
-                    break;
-                case "amaro"    :   mPreview.setActualFilter(new IFAmaroFilter(this));
-                    break;
-                case "brannan"  :   mPreview.setActualFilter(new IFBrannanFilter(this));
-                    break;
-                case "earlybird":   mPreview.setActualFilter(new IFEarlybirdFilter(this));
-                    break;
-                case "hefe"     :   mPreview.setActualFilter(new IFHefeFilter(this));
-                    break;
-                case "hudson"   :   mPreview.setActualFilter(new IFHudsonFilter(this));
-                    break;
-                case "inkwell"  :   mPreview.setActualFilter(new IFInkwellFilter(this));
-                    break;
-                case "lomofi"   :   mPreview.setActualFilter(new IFLomofiFilter(this));
-                    break;
-                case "lordkelvin":  mPreview.setActualFilter(new IFLordKelvinFilter(this));
-                    break;
-                case "normal"   :   mPreview.setActualFilter(new IFNormalFilter(this));
-                    break;
-                case "rise"     :   mPreview.setActualFilter(new IFRiseFilter(this));
-                    break;
-                case "sierra"   :   mPreview.setActualFilter(new IFSierraFilter(this));
-                    break;
-                case "sutro"    :   mPreview.setActualFilter(new IFSutroFilter(this));
-                    break;
-                case "toaster"  :   mPreview.setActualFilter(new IFToasterFilter(this));
-                    break;
-                case "walden"   :   mPreview.setActualFilter(new IFWaldenFilter(this));
-                    break;
-                case "xproll"   :   mPreview.setActualFilter(new IFXproIIFilter(this));
-                    break;
-                case "haze"     :   mPreview.setActualFilter(new GPUImageHazeFilter());
-                    break;
-                case "none"     :   mPreview.setActualFilter(new NoneFilter(this));
-                    break;
-                default: mPreview.setActualFilter(null);
-                    break;
-            }
-
-
-            if (filePath != null) {
-                pictureFile = new File(filePath);
-                fileUri = Uri.fromFile(pictureFile);
-                GetImageThumbnail getImageThumbnail = new GetImageThumbnail();
-                Bitmap bitmap = null;
-                try {
-                    bitmap = getImageThumbnail.getThumbnail(fileUri, this);
-
-                } catch (FileNotFoundException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                Bitmap aux2 = getResizedBitmap(bitmap, capturedImage.getWidth(), capturedImage.getHeight());
-                aux2 = addBlackBorder(aux2, 2);
-                capturedImage.setImageBitmap(aux2);
-            }
-        }
-    }
+    // Función que redimensiona una imagen
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
@@ -862,6 +772,9 @@ public class CameraActivity extends ActionBarActivity {
                 bm, 0, 0, width, height, matrix, false);
         return resizedBitmap;
     }
+
+
+    // Función que añade un borde negro a una imagen
 
     private Bitmap addBlackBorder(Bitmap bmp, int borderSize) {
         Bitmap bmpWithBorder = Bitmap.createBitmap(bmp.getWidth() + borderSize * 2, bmp.getHeight() + borderSize * 2, bmp.getConfig());
