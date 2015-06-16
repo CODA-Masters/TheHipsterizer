@@ -83,7 +83,6 @@ public class FilterActivity extends ActionBarActivity {
 
     }
 
-
     // Función para lanzar el intent de la galeria
 
     public void pickImage() {
