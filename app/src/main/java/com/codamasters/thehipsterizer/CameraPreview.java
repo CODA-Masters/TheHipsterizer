@@ -40,13 +40,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private int cameraId;
 
 
-    public void setActualFilter(GPUImageFilter actualFilter) {
-        this.actualFilter = actualFilter;
-        if(actualFilter != null)
-            view.setFilter(actualFilter);
-    }
-
-
     public CameraPreview(Context context, Camera camera, GPUImageView view) {
 		super(context);
         matrix = new Matrix();
@@ -156,6 +149,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void setCurrentFlash(String currentFlash) {
         this.currentFlash = currentFlash;
     }
+
+    public void setCurrentFilter(GPUImageFilter actualFilter) {
+        this.actualFilter = actualFilter;
+        if(actualFilter != null)
+            view.setFilter(actualFilter);
+    }
+
 
 
     @Override

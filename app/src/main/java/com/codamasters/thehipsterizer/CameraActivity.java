@@ -340,7 +340,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterNormal(View v) {
         currentFilter = "normal";
-        mPreview.setActualFilter(new IFNormalFilter(this));
+        mPreview.setCurrentFilter(new IFNormalFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -350,7 +350,7 @@ public class CameraActivity extends ActionBarActivity {
     }
     public void filterNashville(View v) {
         currentFilter = "nashville";
-        mPreview.setActualFilter( new IFNashvilleFilter(this) );
+        mPreview.setCurrentFilter( new IFNashvilleFilter(this) );
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -360,7 +360,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filter1977(View v) {
         currentFilter = "1977";
-        mPreview.setActualFilter( new IF1977Filter(this) );
+        mPreview.setCurrentFilter( new IF1977Filter(this) );
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -370,7 +370,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterValencia(View v) {
         currentFilter = "valencia";
-        mPreview.setActualFilter(new IFValenciaFilter(this));
+        mPreview.setCurrentFilter(new IFValenciaFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -380,7 +380,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterAmaro(View v) {
         currentFilter = "amaro";
-        mPreview.setActualFilter (new IFAmaroFilter(this));
+        mPreview.setCurrentFilter (new IFAmaroFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -390,7 +390,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterBrannan(View v) {
         currentFilter = "brannan";
-        mPreview.setActualFilter (new IFBrannanFilter(this));
+        mPreview.setCurrentFilter (new IFBrannanFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -400,7 +400,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterEarlyBird(View v) {
         currentFilter = "earlybird";
-        mPreview.setActualFilter (new IFEarlybirdFilter(this));
+        mPreview.setCurrentFilter (new IFEarlybirdFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -410,7 +410,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterHefe(View v) {
         currentFilter = "hefe";
-        mPreview.setActualFilter (new IFHefeFilter(this));
+        mPreview.setCurrentFilter (new IFHefeFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -420,7 +420,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterHudson(View v) {
         currentFilter = "hudson";
-        mPreview.setActualFilter (new IFHudsonFilter(this));
+        mPreview.setCurrentFilter (new IFHudsonFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -430,7 +430,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterInkwell(View v) {
         currentFilter = "inkwell";
-        mPreview.setActualFilter (new IFInkwellFilter(this));
+        mPreview.setCurrentFilter (new IFInkwellFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -440,7 +440,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterLomofi(View v) {
         currentFilter = "lomofi";
-        mPreview.setActualFilter (new IFLomofiFilter(this));
+        mPreview.setCurrentFilter (new IFLomofiFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -450,7 +450,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterLordKelvin(View v) {
         currentFilter = "lordkelvin";
-        mPreview.setActualFilter(new IFLordKelvinFilter(this));
+        mPreview.setCurrentFilter(new IFLordKelvinFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -461,7 +461,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterRise(View v) {
         currentFilter = "rise";
-        mPreview.setActualFilter(new IFRiseFilter(this));
+        mPreview.setCurrentFilter(new IFRiseFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -471,7 +471,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterSierra(View v) {
         currentFilter = "sierra";
-        mPreview.setActualFilter(new IFSierraFilter(this));
+        mPreview.setCurrentFilter(new IFSierraFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -481,7 +481,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterSutro(View v) {
         currentFilter = "sutro";
-        mPreview.setActualFilter(new IFSutroFilter(this));
+        mPreview.setCurrentFilter(new IFSutroFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -491,7 +491,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterToaster(View v) {
         currentFilter = "toaster";
-        mPreview.setActualFilter(new IFToasterFilter(this));
+        mPreview.setCurrentFilter(new IFToasterFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -501,7 +501,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterWalden(View v) {
         currentFilter = "walden";
-        mPreview.setActualFilter(new IFWaldenFilter(this));
+        mPreview.setCurrentFilter(new IFWaldenFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -511,7 +511,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterXproll(View v) {
         currentFilter = "xproll";
-        mPreview.setActualFilter(new IFXproIIFilter(this));
+        mPreview.setCurrentFilter(new IFXproIIFilter(this));
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -521,7 +521,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterHaze(View v) {
         currentFilter = "haze";
-        mPreview.setActualFilter(new GPUImageHazeFilter());
+        mPreview.setCurrentFilter(new GPUImageHazeFilter());
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -531,7 +531,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterSketch(View v) {
         currentFilter = "sketch";
-        mPreview.setActualFilter(new GPUImageSketchFilter());
+        mPreview.setCurrentFilter(new GPUImageSketchFilter());
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
@@ -541,7 +541,7 @@ public class CameraActivity extends ActionBarActivity {
 
     public void filterToon(View v) {
         currentFilter = "sketch";
-        mPreview.setActualFilter(new GPUImageToonFilter());
+        mPreview.setCurrentFilter(new GPUImageToonFilter());
         menuFiltersLayout.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.VISIBLE);
 
