@@ -11,6 +11,7 @@
         android:background="@drawable/camera_init"
         android:onClick="openCamera"
         android:clickable="false"
+        android:elevation="5dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -23,6 +24,7 @@
         android:onClick="openFilter"
         android:layout_below="@+id/cameraMode"
         android:layout_alignRight="@+id/cameraMode"
+        android:elevation="5dp"
         android:layout_alignEnd="@+id/cameraMode" />
 
     <TextView

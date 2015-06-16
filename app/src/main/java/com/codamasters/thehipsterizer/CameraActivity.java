@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,13 +27,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -97,13 +95,18 @@ public class CameraActivity extends ActionBarActivity {
         getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         myContext = this;
 
+        // Inicializamos todos los objetos
         initialize();
 
         mPreview.setWillNotDraw(false);
+
+        // Guardamos el handler porque nos hará falta más adelante para usar hebras secundarias
+        // pero aún así poder acceder a la interfz de usuario
         mHandler = new Handler(Looper.getMainLooper());
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
 
+        // Asignamos la toolbar como nueva ActionBar y la configuramos con el botón de volver hacia atrás
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -116,6 +119,8 @@ public class CameraActivity extends ActionBarActivity {
         });
     }
 
+    // Generamos el menú apartir del xml correspondiente y
+    // asignamos los estados diferentes que tiene el flash en el Menú
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -136,7 +141,11 @@ public class CameraActivity extends ActionBarActivity {
         return true;
     }
 
-    // Action Bar listener
+    // Esta función se encarga de manejar los eventos que se producen al hacer clic
+    // sobre los items de la barra de menú
+    // Tendremos el botón de cambiar la cámara de trasera a delantera y viceversa
+    // Y el botón para modificar los íconos del flash cuando hacemos clic sobre el
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
@@ -192,6 +201,7 @@ public class CameraActivity extends ActionBarActivity {
         }
     }
 
+    // Esta función se encarga de buscar la cámara delantera
     private int findFrontFacingCamera() {
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
@@ -205,6 +215,7 @@ public class CameraActivity extends ActionBarActivity {
         }
         return cameraId;
     }
+    // Esta función se encarga de buscar la cámara trasera
 
     private int findBackFacingCamera() {
         int numberOfCameras = Camera.getNumberOfCameras();
@@ -219,6 +230,9 @@ public class CameraActivity extends ActionBarActivity {
         }
         return cameraId;
     }
+
+    // onResume se llamra cuando vuelva de un estado de pause la aplicación, como cuando la minimizamos
+    // y la volvimos a abrir, tendrá las mismas acciones que onCreate
 
     public void onResume() {
         super.onResume();
@@ -264,6 +278,7 @@ public class CameraActivity extends ActionBarActivity {
         }
     }
 
+    // Inicializamos todos los objetos que vayamos a usar
     public void initialize() {
         cameraPreview = (LinearLayout) findViewById(R.id.camera_preview);
         view = (GPUImageView) findViewById(R.id.live_filter_view);
@@ -318,6 +333,10 @@ public class CameraActivity extends ActionBarActivity {
         button_filters_text = (TextView) findViewById(R.id.button_filters_text);
     }
 
+
+    // Conjunto de onClickListeners correspondientes a cada filtro de la lista de filtros posibles
+    // Al hacer clic sobre uno desaparece la barra de la lista
+    // y actualizamos el filtro activo en la imagen de seleccion de filtros
 
     public void filterNormal(View v) {
         currentFilter = "normal";
@@ -531,6 +550,8 @@ public class CameraActivity extends ActionBarActivity {
     }
 
 
+    // Listener que se encarga de desplegar la lista de filtros
+
     OnClickListener filtersListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -539,6 +560,8 @@ public class CameraActivity extends ActionBarActivity {
         }
 
     };
+
+    // Listener que se encarga de mostrar la imagen tomada en pantalla completa
 
     OnClickListener capturedImageListener = new OnClickListener() {
         @Override
@@ -555,6 +578,7 @@ public class CameraActivity extends ActionBarActivity {
     };
 
 
+    // Función para elegir la cámara
 
     public void chooseCamera() {
 
