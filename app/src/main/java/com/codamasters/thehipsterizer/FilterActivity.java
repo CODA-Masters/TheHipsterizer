@@ -65,18 +65,27 @@ public class FilterActivity extends ActionBarActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent intent = new Intent(FilterActivity.this, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.animator.animation3, R.animator.animation4);
-            }
-        });
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+
+            // Asignamos la toolbar como nueva ActionBar y la configuramos con el botón de volver hacia atrás
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(FilterActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.animator.animation3, R.animator.animation4);
+                }
+            });
+        }
+        else{
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
 
         mEffectView = (GPUImageView) findViewById(R.id.image_preview);
 

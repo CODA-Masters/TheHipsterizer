@@ -13,13 +13,14 @@ import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PictureCallback;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,18 +33,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
@@ -104,19 +101,26 @@ public class CameraActivity extends ActionBarActivity {
         // pero aún así poder acceder a la interfz de usuario
         mHandler = new Handler(Looper.getMainLooper());
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
 
-        // Asignamos la toolbar como nueva ActionBar y la configuramos con el botón de volver hacia atrás
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CameraActivity.this, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.animator.animation3, R.animator.animation4);
-            }
-        });
+            // Asignamos la toolbar como nueva ActionBar y la configuramos con el botón de volver hacia atrás
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.animator.animation3, R.animator.animation4);
+                }
+            });
+        }
+        else{
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     // Generamos el menú apartir del xml correspondiente y
@@ -196,6 +200,9 @@ public class CameraActivity extends ActionBarActivity {
                 }
                 invalidateOptionsMenu();
                 return true;
+            case android.R.id.home:
+                this.finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -263,18 +270,26 @@ public class CameraActivity extends ActionBarActivity {
             mPicture = getPictureCallback();
             mPreview.refreshCamera(mCamera);
 
-            toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-            setSupportActionBar(toolbar);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
 
-            toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CameraActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.animator.animation3, R.animator.animation4);
-                }
-            });
+                // Asignamos la toolbar como nueva ActionBar y la configuramos con el botón de volver hacia atrás
+                setSupportActionBar(toolbar);
+                toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(CameraActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.animator.animation3, R.animator.animation4);
+                    }
+                });
+            }
+            else{
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.setDisplayShowHomeEnabled(false);
+                actionBar.setDisplayShowTitleEnabled(false);
+            }
         }
     }
 

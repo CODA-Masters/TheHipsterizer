@@ -3,8 +3,8 @@ package com.codamasters.thehipsterizer;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +35,9 @@ public class MainActivity extends ActionBarActivity {
         galleryMode = (ImageButton) findViewById(R.id.galleryMode);
         initalize();
 
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            getSupportActionBar().hide();
+        }
     }
 
     public void initalize(){
