@@ -82,7 +82,6 @@ public class CameraActivity extends ActionBarActivity {
     private ImageView button_filters_image;
     private TextView button_filters_text;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,18 +129,27 @@ public class CameraActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        switch (flashState){
-            case FLASH_OFF:
-                menu.findItem(R.id.action_flash).setIcon(noflashicon);
-                return true;
-            case FLASH_ON:
-                menu.findItem(R.id.action_flash).setIcon(flashicon);
-                return true;
-            case FLASH_AUTO:
-                menu.findItem(R.id.action_flash).setIcon(autoflashicon);
-                return true;
-            default:
-                menu.findItem(R.id.action_flash).setIcon(noflashicon);
+        if(cameraFront) {
+            mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_OFF);
+            mPreview.refreshCamera(mCamera);
+            flashState = FLASH_OFF;
+            menu.findItem(R.id.action_flash).setVisible(false);
+        }
+        else {
+            menu.findItem(R.id.action_flash).setVisible(true);
+            switch (flashState) {
+                case FLASH_OFF:
+                    menu.findItem(R.id.action_flash).setIcon(noflashicon);
+                    return true;
+                case FLASH_ON:
+                    menu.findItem(R.id.action_flash).setIcon(flashicon);
+                    return true;
+                case FLASH_AUTO:
+                    menu.findItem(R.id.action_flash).setIcon(autoflashicon);
+                    return true;
+                default:
+                    menu.findItem(R.id.action_flash).setIcon(noflashicon);
+            }
         }
         return true;
     }
@@ -182,22 +190,26 @@ public class CameraActivity extends ActionBarActivity {
                 return true;
 
             case R.id.action_flash:
+                if (!cameraFront) {
+                    if (item.getIcon() == autoflashicon) {
+                        mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_ON);
+                        mPreview.refreshCamera(mCamera);
+                        flashState = FLASH_ON;
+                    } else if (item.getIcon() == flashicon) {
+                        mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_OFF);
+                        mPreview.refreshCamera(mCamera);
+                        flashState = FLASH_OFF;
 
-                if (item.getIcon() == autoflashicon) {
-                    mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_ON);
-                    mPreview.refreshCamera(mCamera);
-                    flashState = FLASH_ON;
+                    } else if (item.getIcon() == noflashicon) {
+                        mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_AUTO);
+                        mPreview.refreshCamera(mCamera);
+                        flashState = FLASH_AUTO;
+                    }
                 }
-                else if (item.getIcon() == flashicon) {
+                else{
                     mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_OFF);
                     mPreview.refreshCamera(mCamera);
                     flashState = FLASH_OFF;
-
-                }
-                else if(item.getIcon() == noflashicon) {
-                    mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_AUTO);
-                    mPreview.refreshCamera(mCamera);
-                    flashState = FLASH_AUTO;
                 }
                 invalidateOptionsMenu();
                 return true;
@@ -218,6 +230,7 @@ public class CameraActivity extends ActionBarActivity {
             if (info.facing == CameraInfo.CAMERA_FACING_FRONT) {
                 cameraId = i;
                 cameraFront = true;
+                invalidateOptionsMenu();
                 break;
             }
         }
@@ -233,6 +246,7 @@ public class CameraActivity extends ActionBarActivity {
             if (info.facing == CameraInfo.CAMERA_FACING_BACK) {
                 cameraId = i;
                 cameraFront = false;
+                invalidateOptionsMenu();
                 break;
             }
         }
