@@ -110,6 +110,7 @@ public class CameraActivity extends ActionBarActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    finish();
                     Intent intent = new Intent(CameraActivity.this, MainActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.animator.animation3, R.animator.animation4);
