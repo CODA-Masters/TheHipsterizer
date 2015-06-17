@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -155,6 +156,7 @@ public class FilterActivity extends ActionBarActivity {
                             cursor.close();
 
                             galleryImage = BitmapFactory.decodeFile(imgDecodableString);
+
                             auxImage = galleryImage;
                             mEffectView.setImage(galleryImage);
                         }
@@ -272,7 +274,7 @@ public class FilterActivity extends ActionBarActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-
+        Matrix matrix;
         // Handle presses on the action bar items
         ActionBar actionBar = getSupportActionBar();
         switch (item.getItemId()) {
@@ -323,6 +325,25 @@ public class FilterActivity extends ActionBarActivity {
             case android.R.id.home:
                 this.finish();
                 return true;
+            case R.id.action_rotar_izquierda:
+                matrix = new Matrix();
+                matrix.postRotate(270);
+
+                galleryImage = Bitmap.createBitmap(galleryImage , 0, 0, galleryImage.getWidth(), galleryImage.getHeight(), matrix, true);
+
+                auxImage = galleryImage;
+                mEffectView.setImage(galleryImage);
+                return true;
+
+            case R.id.action_rotar_derecha:
+                matrix = new Matrix();
+                matrix.postRotate(90);
+
+                galleryImage = Bitmap.createBitmap(galleryImage , 0, 0, galleryImage.getWidth(), galleryImage.getHeight(), matrix, true);
+                auxImage = galleryImage;
+                mEffectView.setImage(galleryImage);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

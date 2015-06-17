@@ -9,4 +9,14 @@
             android:title="@string/action_save"
             app:showAsAction="ifRoom"  />
 
+    <item android:id="@+id/action_rotar_izquierda"
+        android:icon="@drawable/rotar_izquierda"
+        android:title="@string/action_rotar_izquierda"
+        app:showAsAction="ifRoom"  />
+
+    <item android:id="@+id/action_rotar_derecha"
+        android:icon="@drawable/rotar_derecha"
+        android:title="@string/action_rotar_derecha"
+        app:showAsAction="ifRoom"  />
+
 </menu>

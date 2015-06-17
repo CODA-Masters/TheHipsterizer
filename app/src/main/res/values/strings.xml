@@ -9,6 +9,8 @@
     <string name="action_flash">Flash</string>
     <string name="action_noflash">No Flash</string>
     <string name="action_save">Save</string>
+    <string name="action_rotar_derecha">Rotate Right</string>
+    <string name="action_rotar_izquierda">Rotate Left</string>
     <string name="action_home">Home</string>
 
 
