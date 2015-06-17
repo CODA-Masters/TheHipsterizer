@@ -83,7 +83,7 @@ public class FilterActivity extends ActionBarActivity {
         }
         else{
             ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
@@ -96,11 +96,20 @@ public class FilterActivity extends ActionBarActivity {
     // Función para lanzar el intent de la galeria
 
     public void pickImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
+        }
+        else {
+            // Create intent to Open Image applications like Gallery, Google Photos
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            // Start the Intent
+            startActivityForResult(galleryIntent, REQ_CODE_PICK_IMAGE);
+        }
     }
 
     // Una vez seleccionada la imagen la cargamos en la vista y guardamos una imagen auxiliar
@@ -113,46 +122,49 @@ public class FilterActivity extends ActionBarActivity {
 
         switch (requestCode) {
             case REQ_CODE_PICK_IMAGE:
-                Toast.makeText(this, "Fuera", Toast.LENGTH_SHORT);
-                if (resultCode == RESULT_OK && imageReturnedIntent !=  null ) {
-                    Toast.makeText(this, "Dentro", Toast.LENGTH_SHORT);
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Uri selectedImage = imageReturnedIntent.getData();
-                        InputStream imageStream = null;
-                        try {
-                            imageStream = context.getContentResolver().openInputStream(selectedImage);
-                            galleryImage = BitmapFactory.decodeStream(imageStream);
+                try{
+                    if (resultCode == RESULT_OK && imageReturnedIntent !=  null ) {
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Uri selectedImage = imageReturnedIntent.getData();
+                            InputStream imageStream = null;
+                            try {
+                                imageStream = context.getContentResolver().openInputStream(selectedImage);
+                                galleryImage = BitmapFactory.decodeStream(imageStream);
+                                auxImage = galleryImage;
+                                mEffectView.setImage(galleryImage);
+
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else{
+                            // Get the Image from data
+
+                            Uri selectedImage = imageReturnedIntent.getData();
+                            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                            // Get the cursor
+                            Cursor cursor = getContentResolver().query(selectedImage,
+                                    filePathColumn, null, null, null);
+                            // Move to first row
+                            cursor.moveToFirst();
+
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            String imgDecodableString = cursor.getString(columnIndex);
+                            cursor.close();
+
+                            galleryImage = BitmapFactory.decodeFile(imgDecodableString);
                             auxImage = galleryImage;
                             mEffectView.setImage(galleryImage);
-
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
                         }
                     }
-                    else{
-                        Uri selectedImage = imageReturnedIntent.getData();
-                        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-                        Cursor cursor = getContentResolver().query(selectedImage,
-                                filePathColumn, null, null, null);
-                        cursor.moveToFirst();
-
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String picturePath = cursor.getString(columnIndex);
-                        cursor.close();
-
-                        galleryImage = BitmapFactory.decodeFile(picturePath);
-                        auxImage = galleryImage;
-                        mEffectView.setImage(galleryImage);
+                    else {
+                        Toast.makeText(this, "You haven't picked Image",
+                                Toast.LENGTH_LONG).show();
                     }
-                }
-                else{
-                    finish();
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
-                    galleryImage = null;
-                    auxImage = null;
-
+                } catch (Exception e) {
+                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                            .show();
                 }
             break;
         }
@@ -306,6 +318,9 @@ public class FilterActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Imagen guardada",Toast.LENGTH_LONG).show();
                 }
 
+                return true;
+            case android.R.id.home:
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
