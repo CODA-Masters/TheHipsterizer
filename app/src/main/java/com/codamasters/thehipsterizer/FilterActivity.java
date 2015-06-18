@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -373,12 +372,8 @@ public class FilterActivity extends ActionBarActivity {
             int height = galleryImage.getHeight();
 
             galleryImage = RotateBitmap(originalImage, 90);
-            if(width > height) {
-                galleryImage = getResizedBitmap(galleryImage, height, width - (width-height));
-            }
-            else{
-                galleryImage = getResizedBitmap(galleryImage, height - (height - width), width);
-            }
+
+            galleryImage = getResizedBitmap(galleryImage, height, width);
 
         }
         else if(position_image == ROTATION_270) {
@@ -388,16 +383,13 @@ public class FilterActivity extends ActionBarActivity {
             int height = galleryImage.getHeight();
 
             galleryImage = RotateBitmap(originalImage, 270);
-            if(width > height) {
-                galleryImage = getResizedBitmap(galleryImage, height, width - (width-height));
-            }
-            else{
-                galleryImage = getResizedBitmap(galleryImage, height - (height - width), width);
-            }
+
+            galleryImage = getResizedBitmap(galleryImage, height, width);
 
         }
 
         auxImage = galleryImage;
+        mEffectView.setScaleType(GPUImage.ScaleType.CENTER_INSIDE);
         mEffectView.setImage(galleryImage);
     }
 
@@ -432,9 +424,24 @@ public class FilterActivity extends ActionBarActivity {
     }
 
     public Bitmap getResizedBitmap(Bitmap b, int newWidth, int newHeight) {
-        Matrix m = new Matrix();
-        m.setRectToRect(new RectF(0, 0, b.getWidth(), b.getHeight()), new RectF(0, 0, newWidth, newHeight), Matrix.ScaleToFit.FILL);
-        return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), m, true);
+        int width = b.getWidth();
+        int height = b.getHeight();
+
+        // calculate the scale
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // createa matrix for the manipulation
+        Matrix matrix = new Matrix();
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // recreate the new Bitmap
+        Bitmap result = Bitmap.createBitmap(b, 0, 0,
+                width, height, matrix, true);
+
+       return result;
+
     }
 
 }
