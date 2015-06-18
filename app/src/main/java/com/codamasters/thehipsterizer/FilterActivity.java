@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import jp.co.cyberagent.android.gpuimage.GPUImage;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageSketchFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageToonFilter;
@@ -98,6 +99,7 @@ public class FilterActivity extends ActionBarActivity {
         }
 
         mEffectView = (GPUImageView) findViewById(R.id.image_preview);
+        mEffectView.setScaleType(GPUImage.ScaleType.CENTER_INSIDE);
 
         pickImage();
 
@@ -367,20 +369,35 @@ public class FilterActivity extends ActionBarActivity {
         else if(position_image == ROTATION_90) {
 
             deleteViewImage();
+            int width = galleryImage.getWidth();
+            int height = galleryImage.getHeight();
 
             galleryImage = RotateBitmap(originalImage, 90);
-            galleryImage = getResizedBitmap(galleryImage, galleryImage.getHeight(), galleryImage.getWidth());
+            if(width > height) {
+                galleryImage = getResizedBitmap(galleryImage, height, width - (width-height));
+            }
+            else{
+                galleryImage = getResizedBitmap(galleryImage, height - (height - width), width);
+            }
 
         }
         else if(position_image == ROTATION_270) {
             deleteViewImage();
 
+            int width = galleryImage.getWidth();
+            int height = galleryImage.getHeight();
+
             galleryImage = RotateBitmap(originalImage, 270);
-            galleryImage = getResizedBitmap(galleryImage, galleryImage.getHeight(), galleryImage.getWidth());
+            if(width > height) {
+                galleryImage = getResizedBitmap(galleryImage, height, width - (width-height));
+            }
+            else{
+                galleryImage = getResizedBitmap(galleryImage, height - (height - width), width);
+            }
+
         }
 
         auxImage = galleryImage;
-
         mEffectView.setImage(galleryImage);
     }
 
@@ -416,7 +433,7 @@ public class FilterActivity extends ActionBarActivity {
 
     public Bitmap getResizedBitmap(Bitmap b, int newWidth, int newHeight) {
         Matrix m = new Matrix();
-        m.setRectToRect(new RectF(0, 0, b.getWidth(), b.getHeight()), new RectF(0, 0, newWidth, newHeight), Matrix.ScaleToFit.CENTER);
+        m.setRectToRect(new RectF(0, 0, b.getWidth(), b.getHeight()), new RectF(0, 0, newWidth, newHeight), Matrix.ScaleToFit.FILL);
         return Bitmap.createBitmap(b, 0, 0, b.getWidth(), b.getHeight(), m, true);
     }
 
