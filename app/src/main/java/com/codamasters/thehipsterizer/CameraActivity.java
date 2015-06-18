@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.PictureCallback;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -724,6 +725,9 @@ public class CameraActivity extends ActionBarActivity {
 
             progBar.setVisibility(View.VISIBLE);
             mCamera.takePicture(null, null, mPicture);
+
+            final MediaPlayer mp = MediaPlayer.create(myContext, R.raw.camera_click);
+            mp.start();
 
         }
     };
