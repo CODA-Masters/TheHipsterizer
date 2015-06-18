@@ -142,7 +142,7 @@ public class FilterActivity extends ActionBarActivity {
                                 imageStream = context.getContentResolver().openInputStream(selectedImage);
 
                                 BitmapFactory.Options options = new BitmapFactory.Options();
-                                options.inSampleSize = 4;
+                                options.inSampleSize = 2;
                                 options.inPurgeable = true;
                                 options.inInputShareable = true;
                                 options.inJustDecodeBounds = false;
@@ -175,7 +175,7 @@ public class FilterActivity extends ActionBarActivity {
                             cursor.close();
 
                             BitmapFactory.Options options = new BitmapFactory.Options();
-                            options.inSampleSize = 4;
+                            options.inSampleSize = 2;
                             options.inPurgeable = true;
                             options.inInputShareable = true;
                             options.inJustDecodeBounds = false;
