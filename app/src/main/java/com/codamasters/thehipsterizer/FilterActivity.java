@@ -151,7 +151,7 @@ public class FilterActivity extends ActionBarActivity {
                                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
                                 galleryImage = BitmapFactory.decodeStream(imageStream,null,options);
-
+                               
                                 auxImage = galleryImage;
                                 originalImage = galleryImage;
                                 mEffectView.setImage(galleryImage);
@@ -309,12 +309,13 @@ public class FilterActivity extends ActionBarActivity {
             case R.id.action_save:
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-                mEffectView.saveToPictures("TheHipsterizer", "IMG_" + timeStamp + ".jpg", galleryImage.getWidth(), galleryImage.getHeight(), new GPUImageView.OnPictureSavedListener() {
+                mEffectView.saveToPictures("The Hipsterizer", "IMG_" + timeStamp + ".jpg", galleryImage.getWidth(), galleryImage.getHeight(), new GPUImageView.OnPictureSavedListener() {
                     @Override
                     public void onPictureSaved(Uri uri) {
                         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                         mediaScanIntent.setData(uri);
                         sendBroadcast(mediaScanIntent);
+                        Toast.makeText(getApplicationContext(), "Imagen guardada",Toast.LENGTH_LONG).show();
                     }
                 });
                 return true;
