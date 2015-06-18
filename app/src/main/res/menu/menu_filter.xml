@@ -4,11 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".FilterActivity">
 
-    <item android:id="@+id/action_save"
-            android:icon="@drawable/save_icon"
-            android:title="@string/action_save"
-            app:showAsAction="ifRoom"  />
-
     <item android:id="@+id/action_rotar_izquierda"
         android:icon="@drawable/rotar_izquierda"
         android:title="@string/action_rotar_izquierda"
@@ -17,6 +12,11 @@
     <item android:id="@+id/action_rotar_derecha"
         android:icon="@drawable/rotar_derecha"
         android:title="@string/action_rotar_derecha"
+        app:showAsAction="ifRoom"  />
+
+    <item android:id="@+id/action_save"
+        android:icon="@drawable/save_icon"
+        android:title="@string/action_save"
         app:showAsAction="ifRoom"  />
 
 </menu>

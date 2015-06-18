@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import jp.co.cyberagent.android.gpuimage.GPUImageFalseColorFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageSketchFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageToonFilter;
@@ -46,13 +48,20 @@ public class FilterActivity extends ActionBarActivity {
     static final int REQ_CODE_PICK_IMAGE = 1;
     private Bitmap galleryImage;
 
-    private Bitmap auxImage;
+    private Bitmap auxImage, originalImage;
     private Context context;
 
     private GPUImageView mEffectView;
     private TextureRenderer mTexRenderer = new TextureRenderer();
 
     private Toolbar toolbar;
+
+    private int position_image;
+
+    private static int ROTATION_0 = 0;
+    private static int ROTATION_90 = 1;
+    private static int ROTATION_180 = 2;
+    private static int ROTATION_270 = 3;
 
 
     // Realizamos la configuración de la actividad correspondientes
@@ -133,6 +142,7 @@ public class FilterActivity extends ActionBarActivity {
                                 imageStream = context.getContentResolver().openInputStream(selectedImage);
                                 galleryImage = BitmapFactory.decodeStream(imageStream);
                                 auxImage = galleryImage;
+                                originalImage = galleryImage;
                                 mEffectView.setImage(galleryImage);
 
                             } catch (FileNotFoundException e) {
@@ -158,6 +168,7 @@ public class FilterActivity extends ActionBarActivity {
                             galleryImage = BitmapFactory.decodeFile(imgDecodableString);
 
                             auxImage = galleryImage;
+                            originalImage = galleryImage;
                             mEffectView.setImage(galleryImage);
                         }
                     }
@@ -274,7 +285,6 @@ public class FilterActivity extends ActionBarActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Matrix matrix;
         // Handle presses on the action bar items
         ActionBar actionBar = getSupportActionBar();
         switch (item.getItemId()) {
@@ -326,28 +336,68 @@ public class FilterActivity extends ActionBarActivity {
                 this.finish();
                 return true;
             case R.id.action_rotar_izquierda:
-                matrix = new Matrix();
-                matrix.postRotate(270);
 
-                galleryImage = Bitmap.createBitmap(galleryImage , 0, 0, galleryImage.getWidth(), galleryImage.getHeight(), matrix, true);
+                position_image--;
+                if(position_image<0) position_image+=4;
 
-                auxImage = galleryImage;
-                mEffectView.setImage(galleryImage);
+                rotateImage();
+
                 return true;
 
             case R.id.action_rotar_derecha:
-                matrix = new Matrix();
-                matrix.postRotate(90);
+                position_image++;
+                position_image = position_image%4;
 
-                galleryImage = Bitmap.createBitmap(galleryImage , 0, 0, galleryImage.getWidth(), galleryImage.getHeight(), matrix, true);
-                auxImage = galleryImage;
-                mEffectView.setImage(galleryImage);
+                rotateImage();
+
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void rotateImage(){
+
+        if(position_image == ROTATION_0) {
+            galleryImage = originalImage;
+        }
+        else if(position_image == ROTATION_180) {
+            galleryImage = RotateBitmap(originalImage, 180);
+        }
+        else if(position_image == ROTATION_90) {
+
+            deleteViewImage();
+
+            galleryImage = RotateBitmap(originalImage, 90);
+            galleryImage = getResizedBitmap(galleryImage, mEffectView.getWidth(), mEffectView.getHeight());
+
+        }
+        else if(position_image == ROTATION_270) {
+            deleteViewImage();
+
+            galleryImage = RotateBitmap(originalImage, 270);
+            galleryImage = getResizedBitmap(galleryImage, mEffectView.getWidth(), mEffectView.getHeight());
+        }
+
+        auxImage = galleryImage;
+
+        mEffectView.setImage(galleryImage);
+    }
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+    public void deleteViewImage(){
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+        Bitmap bmp = Bitmap.createBitmap(originalImage.getWidth(), originalImage.getHeight(), conf);
+        mEffectView.setImage(bmp);
+    }
+
+
 
     // Función para obtener el fichero en el cual se guardará la imagen
 
@@ -363,6 +413,22 @@ public class FilterActivity extends ActionBarActivity {
         File mediaFile;
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
         return mediaFile;
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        return resizedBitmap;
     }
 
 }
