@@ -318,7 +318,7 @@ public class FilterActivity extends ActionBarActivity {
                                 out = new FileOutputStream(pictureFile);
 
                                 auxImage =  mEffectView.capture();
-                                
+
                                 auxImage.compress(Bitmap.CompressFormat.PNG, 100, out);
                                 try {
                                 if (out != null) {
