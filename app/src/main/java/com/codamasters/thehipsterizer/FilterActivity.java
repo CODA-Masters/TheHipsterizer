@@ -140,7 +140,16 @@ public class FilterActivity extends ActionBarActivity {
                             InputStream imageStream = null;
                             try {
                                 imageStream = context.getContentResolver().openInputStream(selectedImage);
-                                galleryImage = BitmapFactory.decodeStream(imageStream);
+
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                options.inSampleSize = 4;
+                                options.inPurgeable = true;
+                                options.inInputShareable = true;
+                                options.inJustDecodeBounds = false;
+                                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                                galleryImage = BitmapFactory.decodeStream(imageStream,null,options);
+
                                 auxImage = galleryImage;
                                 originalImage = galleryImage;
                                 mEffectView.setImage(galleryImage);
@@ -165,7 +174,14 @@ public class FilterActivity extends ActionBarActivity {
                             String imgDecodableString = cursor.getString(columnIndex);
                             cursor.close();
 
-                            galleryImage = BitmapFactory.decodeFile(imgDecodableString);
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inSampleSize = 4;
+                            options.inPurgeable = true;
+                            options.inInputShareable = true;
+                            options.inJustDecodeBounds = false;
+                            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                            galleryImage = BitmapFactory.decodeFile(imgDecodableString,options);
 
                             auxImage = galleryImage;
                             originalImage = galleryImage;
@@ -302,7 +318,7 @@ public class FilterActivity extends ActionBarActivity {
                                 out = new FileOutputStream(pictureFile);
 
                                 auxImage =  mEffectView.capture();
-
+                                
                                 auxImage.compress(Bitmap.CompressFormat.PNG, 100, out);
                                 try {
                                 if (out != null) {
@@ -404,8 +420,6 @@ public class FilterActivity extends ActionBarActivity {
         Bitmap bmp = Bitmap.createBitmap(originalImage.getWidth(), originalImage.getHeight(), conf);
         mEffectView.setImage(bmp);
     }
-
-
 
     // Función para obtener el fichero en el cual se guardará la imagen
 
