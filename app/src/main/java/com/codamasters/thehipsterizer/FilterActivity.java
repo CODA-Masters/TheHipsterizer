@@ -14,7 +14,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,8 +23,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -124,6 +121,24 @@ public class FilterActivity extends ActionBarActivity {
         }
     }
 
+    public static int calculateInSampleSizeInside(int width, int height, int maxWidth, int maxHeight) {
+        int inSampleSize = 1;
+
+        int heightRatio = (int)Math.ceil((float)height/(float)maxHeight);
+        int widthRatio = (int)Math.ceil((float)width/(float)maxWidth);
+
+        if (heightRatio > 1 || widthRatio > 1)
+        {
+            if (heightRatio > widthRatio)
+            {
+                inSampleSize = heightRatio;
+            } else {
+                inSampleSize = widthRatio;
+            }
+        }
+        return inSampleSize;
+    }
+
     // Una vez seleccionada la imagen la cargamos en la vista y guardamos una imagen auxiliar
     // para sobre ella aplicar los filtros
 
@@ -139,18 +154,22 @@ public class FilterActivity extends ActionBarActivity {
                         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Uri selectedImage = imageReturnedIntent.getData();
                             InputStream imageStream = null;
+                            InputStream imageStream2 = null;
                             try {
                                 imageStream = context.getContentResolver().openInputStream(selectedImage);
+                                imageStream2 = context.getContentResolver().openInputStream(selectedImage);
 
                                 BitmapFactory.Options options = new BitmapFactory.Options();
 
-                                options.inSampleSize = 2;
+                                galleryImage = BitmapFactory.decodeStream(imageStream);
+
+                                options.inSampleSize = calculateInSampleSizeInside(galleryImage.getWidth(), galleryImage.getHeight(), 1024, 1024);
                                 options.inPurgeable = true;
                                 options.inInputShareable = true;
                                 options.inJustDecodeBounds = false;
                                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
-                                galleryImage = BitmapFactory.decodeStream(imageStream,null,options);
+                                galleryImage = BitmapFactory.decodeStream(imageStream2,null,options);
                                
                                 auxImage = galleryImage;
                                 originalImage = galleryImage;
