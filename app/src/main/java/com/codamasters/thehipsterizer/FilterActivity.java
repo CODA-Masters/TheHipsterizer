@@ -142,7 +142,8 @@ public class FilterActivity extends ActionBarActivity {
                                 imageStream = context.getContentResolver().openInputStream(selectedImage);
 
                                 BitmapFactory.Options options = new BitmapFactory.Options();
-                                options.inSampleSize = 4;
+
+                                options.inSampleSize = 2;
                                 options.inPurgeable = true;
                                 options.inInputShareable = true;
                                 options.inJustDecodeBounds = false;
@@ -175,7 +176,7 @@ public class FilterActivity extends ActionBarActivity {
                             cursor.close();
 
                             BitmapFactory.Options options = new BitmapFactory.Options();
-                            options.inSampleSize = 4;
+                            options.inSampleSize = 2;
                             options.inPurgeable = true;
                             options.inInputShareable = true;
                             options.inJustDecodeBounds = false;
@@ -319,7 +320,12 @@ public class FilterActivity extends ActionBarActivity {
 
                                 auxImage =  mEffectView.capture();
 
-                                auxImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+                                int center_X = auxImage.getWidth()/2;
+                                int center_Y = auxImage.getHeight()/2;
+
+                                Bitmap save_image  = Bitmap.createBitmap(auxImage, center_X-galleryImage.getWidth()/2, center_Y-galleryImage.getHeight()/2, galleryImage.getWidth(), galleryImage.getHeight());
+
+                                save_image.compress(Bitmap.CompressFormat.PNG, 100, out);
                                 try {
                                 if (out != null) {
                                     out.close();
