@@ -63,7 +63,7 @@ public class FilterActivity extends ActionBarActivity {
     private static int ROTATION_270 = 3;
 
 
-    // Realizamos la configuraciÃ³n de la actividad correspondientes
+    // Realizamos la configuración de la actividad correspondientes
     // e iniciamos el intent para poder elegir una imagen de galeria
 
     @Override
@@ -78,7 +78,7 @@ public class FilterActivity extends ActionBarActivity {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
 
-            // Asignamos la toolbar como nueva ActionBar y la configuramos con el botÃ³n de volver hacia atrÃ¡s
+            // Asignamos la toolbar como nueva ActionBar y la configuramos con el botón de volver hacia atrás
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -104,7 +104,7 @@ public class FilterActivity extends ActionBarActivity {
 
     }
 
-    // FunciÃ³n para lanzar el intent de la galeria
+    // Función para lanzar el intent de la galeria
 
     public void pickImage() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -196,7 +196,7 @@ public class FilterActivity extends ActionBarActivity {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
                             .show();
                 }
-            break;
+                break;
         }
     }
 
@@ -287,7 +287,7 @@ public class FilterActivity extends ActionBarActivity {
         mEffectView.setFilter(new GPUImageToonFilter());
     }
 
-    // Creamos el menÃº
+    // Creamos el menú
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -296,8 +296,8 @@ public class FilterActivity extends ActionBarActivity {
         return true;
     }
 
-    // manejamos las acciones de los botones del menÃº
-    // En concreto la funciÃ³n de guardar la imagen filtrada
+    // manejamos las acciones de los botones del menú
+    // En concreto la función de guardar la imagen filtrada
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -321,18 +321,18 @@ public class FilterActivity extends ActionBarActivity {
 
                                 auxImage.compress(Bitmap.CompressFormat.PNG, 100, out);
                                 try {
-                                if (out != null) {
-                                    out.close();
-                                    try {
-                                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                        Uri uri = Uri.fromFile(pictureFile);
-                                        mediaScanIntent.setData(uri);
-                                        sendBroadcast(mediaScanIntent);
-                                    } catch (Exception e) {
+                                    if (out != null) {
+                                        out.close();
+                                        try {
+                                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                            Uri uri = Uri.fromFile(pictureFile);
+                                            mediaScanIntent.setData(uri);
+                                            sendBroadcast(mediaScanIntent);
+                                        } catch (Exception e) {
+                                        }
                                     }
-                                }
                                 } catch (IOException e) {
-                                        e.printStackTrace();
+                                    e.printStackTrace();
                                 }
 
 
@@ -421,7 +421,7 @@ public class FilterActivity extends ActionBarActivity {
         mEffectView.setImage(bmp);
     }
 
-    // FunciÃ³n para obtener el fichero en el cual se guardarÃ¡ la imagen
+    // Función para obtener el fichero en el cual se guardará la imagen
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");
@@ -454,7 +454,7 @@ public class FilterActivity extends ActionBarActivity {
         Bitmap result = Bitmap.createBitmap(b, 0, 0,
                 width, height, matrix, true);
 
-       return result;
+        return result;
 
     }
 
