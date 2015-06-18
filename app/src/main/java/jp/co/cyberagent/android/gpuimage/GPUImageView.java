@@ -424,7 +424,7 @@ public class GPUImageView extends FrameLayout {
             File file = new File(path, folderName + "/" + fileName);
             try {
                 file.getParentFile().mkdirs();
-                image.compress(Bitmap.CompressFormat.JPEG, 80, new FileOutputStream(file));
+                image.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
                 MediaScannerConnection.scanFile(getContext(),
                         new String[]{
                                 file.toString()

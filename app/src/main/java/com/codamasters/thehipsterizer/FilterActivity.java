@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -63,7 +64,7 @@ public class FilterActivity extends ActionBarActivity {
     private static int ROTATION_270 = 3;
 
 
-    // Realizamos la configuración de la actividad correspondientes
+    // Realizamos la configuraciÃ³n de la actividad correspondientes
     // e iniciamos el intent para poder elegir una imagen de galeria
 
     @Override
@@ -78,7 +79,7 @@ public class FilterActivity extends ActionBarActivity {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
 
-            // Asignamos la toolbar como nueva ActionBar y la configuramos con el botón de volver hacia atrás
+            // Asignamos la toolbar como nueva ActionBar y la configuramos con el botÃ³n de volver hacia atrÃ¡s
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -104,7 +105,7 @@ public class FilterActivity extends ActionBarActivity {
 
     }
 
-    // Función para lanzar el intent de la galeria
+    // FunciÃ³n para lanzar el intent de la galeria
 
     public void pickImage() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -142,6 +143,7 @@ public class FilterActivity extends ActionBarActivity {
                                 imageStream = context.getContentResolver().openInputStream(selectedImage);
 
                                 BitmapFactory.Options options = new BitmapFactory.Options();
+
                                 options.inSampleSize = 2;
                                 options.inPurgeable = true;
                                 options.inInputShareable = true;
@@ -196,7 +198,7 @@ public class FilterActivity extends ActionBarActivity {
                     Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
                             .show();
                 }
-                break;
+            break;
         }
     }
 
@@ -287,7 +289,7 @@ public class FilterActivity extends ActionBarActivity {
         mEffectView.setFilter(new GPUImageToonFilter());
     }
 
-    // Creamos el menú
+    // Creamos el menÃº
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -296,8 +298,8 @@ public class FilterActivity extends ActionBarActivity {
         return true;
     }
 
-    // manejamos las acciones de los botones del menú
-    // En concreto la función de guardar la imagen filtrada
+    // manejamos las acciones de los botones del menÃº
+    // En concreto la funciÃ³n de guardar la imagen filtrada
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -305,48 +307,16 @@ public class FilterActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         switch (item.getItemId()) {
             case R.id.action_save:
-                try {
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-
-                                File pictureFile = getOutputMediaFile();
-
-                                FileOutputStream out = null;
-
-                                out = new FileOutputStream(pictureFile);
-
-                                auxImage =  mEffectView.capture();
-
-                                auxImage.compress(Bitmap.CompressFormat.PNG, 100, out);
-                                try {
-                                    if (out != null) {
-                                        out.close();
-                                        try {
-                                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                            Uri uri = Uri.fromFile(pictureFile);
-                                            mediaScanIntent.setData(uri);
-                                            sendBroadcast(mediaScanIntent);
-                                        } catch (Exception e) {
-                                        }
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-
-                            } catch(Exception e) {
-                            }
-                        }
-                    }).start();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    Toast.makeText(getApplicationContext(), "Imagen guardada",Toast.LENGTH_LONG).show();
-                }
-
+                mEffectView.saveToPictures("TheHipsterizer", "IMG_" + timeStamp + ".jpg", galleryImage.getWidth(), galleryImage.getHeight(), new GPUImageView.OnPictureSavedListener() {
+                    @Override
+                    public void onPictureSaved(Uri uri) {
+                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        mediaScanIntent.setData(uri);
+                        sendBroadcast(mediaScanIntent);
+                    }
+                });
                 return true;
             case android.R.id.home:
                 this.finish();
@@ -421,7 +391,7 @@ public class FilterActivity extends ActionBarActivity {
         mEffectView.setImage(bmp);
     }
 
-    // Función para obtener el fichero en el cual se guardará la imagen
+    // FunciÃ³n para obtener el fichero en el cual se guardarÃ¡ la imagen
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getPath() , "DCIM/Camera");
@@ -454,7 +424,7 @@ public class FilterActivity extends ActionBarActivity {
         Bitmap result = Bitmap.createBitmap(b, 0, 0,
                 width, height, matrix, true);
 
-        return result;
+       return result;
 
     }
 
