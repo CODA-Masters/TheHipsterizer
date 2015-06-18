@@ -14,7 +14,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +29,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import jp.co.cyberagent.android.gpuimage.GPUImageFalseColorFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageHazeFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageSketchFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageToonFilter;
@@ -370,14 +368,14 @@ public class FilterActivity extends ActionBarActivity {
             deleteViewImage();
 
             galleryImage = RotateBitmap(originalImage, 90);
-            galleryImage = getResizedBitmap(galleryImage, mEffectView.getWidth(), mEffectView.getHeight());
+            galleryImage = getResizedBitmap(galleryImage, galleryImage.getHeight(), galleryImage.getWidth());
 
         }
         else if(position_image == ROTATION_270) {
             deleteViewImage();
 
             galleryImage = RotateBitmap(originalImage, 270);
-            galleryImage = getResizedBitmap(galleryImage, mEffectView.getWidth(), mEffectView.getHeight());
+            galleryImage = getResizedBitmap(galleryImage, galleryImage.getHeight(), galleryImage.getWidth());
         }
 
         auxImage = galleryImage;
