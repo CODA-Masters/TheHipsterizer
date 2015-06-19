@@ -191,6 +191,7 @@ public class CameraActivity extends ActionBarActivity {
                 return true;
 
             case R.id.action_flash:
+                Camera.Parameters parameters = mCamera.getParameters();
                 if (!cameraFront) {
                     if (item.getIcon() == autoflashicon) {
                         mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_ON);
@@ -666,6 +667,7 @@ public class CameraActivity extends ActionBarActivity {
             public void onPictureTaken(byte[] data, Camera camera) {
 
                 try {
+
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -710,21 +712,36 @@ public class CameraActivity extends ActionBarActivity {
                 } finally {
 
                 }
-
+                mPreview.setCurrentFlash(mPreview.getCurrentFlash());
                 mPreview.refreshCamera(mCamera);
             }
         };
         return picture;
     }
 
-    // Listener para el evento de hacer una imagen.
+    // Listener para el evento de tomar una foto.
 
     OnClickListener captureListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
 
+            if(mPreview.getCurrentFlash() ==  Camera.Parameters.FLASH_MODE_ON ||
+                    (mPreview.getCurrentFlash() == Camera.Parameters.FLASH_MODE_AUTO)) {
+                mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_TORCH);
+                mPreview.refreshCamera(mCamera);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mCamera.takePicture(null, null, mPicture);
+                mPreview.setCurrentFlash(Camera.Parameters.FLASH_MODE_ON);
+            }
+            else {
+                mCamera.takePicture(null, null, mPicture);
+            }
+
             progBar.setVisibility(View.VISIBLE);
-            mCamera.takePicture(null, null, mPicture);
 
             final MediaPlayer mp = MediaPlayer.create(myContext, R.raw.camera_click);
             mp.start();
